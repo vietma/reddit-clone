@@ -1,15 +1,13 @@
 import React, { Component } from "react";
-// import logo from "../logo.svg";
-// import "../App.css";
 import * as firebase from "firebase";
-import config from "./firebase-config";
+import firebaseConfig from "./firebase-config";
+import Posts from "../Posts";
 
 class App extends Component {
   constructor() {
     super();
-    firebase.initializeApp(config);
+    firebase.initializeApp(firebaseConfig);
   }
-
   state = {
     posts: [],
     loading: true
@@ -28,14 +26,10 @@ class App extends Component {
   }
 
   render() {
+    console.log("props", this.props);
     return (
-      <div className="App">
-        {this.props.children &&
-          React.cloneElement(this.props.children, {
-            firebase: firebase.database(),
-            posts: this.state.posts,
-            loading: this.state.loading
-          })}
+      <div>
+        <Posts posts={this.state.posts} />
       </div>
     );
   }
