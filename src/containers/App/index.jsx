@@ -9,8 +9,7 @@ class App extends Component {
     firebase.initializeApp(firebaseConfig);
   }
   state = {
-    posts: [],
-    loading: true
+    posts: []
   };
 
   componentWillMount() {
@@ -19,17 +18,25 @@ class App extends Component {
     postsRef.on("value", function(snapshot) {
       console.log(snapshot.val());
       _this.setState({
-        posts: snapshot.val(),
-        loading: false
+        posts: snapshot.val()
       });
     });
   }
 
+  handleUpVote = (post, id) => {
+    let firebaseRef = firebase.database();
+    firebaseRef.ref("posts/" + id).set({
+      title: post.title,
+      upvote: post.upvote + 1,
+      downvote: post.downvote
+    });
+  };
+
   render() {
-    console.log("props", this.props);
+    // console.log("posts", this.state.posts);
     return (
       <div>
-        <Posts posts={this.state.posts} />
+        <Posts posts={this.state.posts} onUpVote={this.handleUpVote} />
       </div>
     );
   }
