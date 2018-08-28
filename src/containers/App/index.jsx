@@ -32,11 +32,24 @@ class App extends Component {
     });
   };
 
+  handleDownVote = (post, id) => {
+    let firebaseRef = firebase.database();
+    firebaseRef.ref("posts/" + id).set({
+      title: post.title,
+      upvote: post.upvote,
+      downvote: post.downvote + 1
+    });
+  };
+
   render() {
     // console.log("posts", this.state.posts);
     return (
       <div>
-        <Posts posts={this.state.posts} onUpVote={this.handleUpVote} />
+        <Posts
+          posts={this.state.posts}
+          onUpVote={this.handleUpVote}
+          onDownVote={this.handleDownVote}
+        />
       </div>
     );
   }
