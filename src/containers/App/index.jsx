@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-import * as firebase from "firebase";
-import firebaseConfig from "./firebase-config";
 import Posts from "../Posts";
+import firebase from "../../firebase";
 
 class App extends Component {
-  constructor() {
-    super();
-    firebase.initializeApp(firebaseConfig);
-  }
   state = {
     posts: []
   };
@@ -16,7 +11,8 @@ class App extends Component {
     let postsRef = firebase.database().ref("posts");
     let _this = this;
     postsRef.on("value", function(snapshot) {
-      console.log(snapshot.val());
+      // console.log(snapshot.val());
+      console.log("componentWillMount hook is called...");
       _this.setState({
         posts: snapshot.val()
       });

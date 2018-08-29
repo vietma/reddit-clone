@@ -1,11 +1,7 @@
 import React, { Component } from "react";
+import firebase from "../../firebase";
 
 class AddPost extends Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
   state = { title: "" };
 
   handleChange = e => {
@@ -16,11 +12,13 @@ class AddPost extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.firebase.ref("posts").push({
+    const postsRef = firebase.database().ref("posts");
+    const newPost = {
       title: this.state.title,
       upvote: 0,
       downvote: 0
-    });
+    };
+    postsRef.push(newPost);
 
     this.setState({
       title: ""
